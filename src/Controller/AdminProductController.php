@@ -33,7 +33,7 @@ class AdminProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($Product);
             $entityManager->flush();
-            return $this->redirectToRoute('main');
+            return $this->redirectToRoute('productInfo',['id' => $Product->getId()]);
         }
 
         return $this->render('add_product/index.html.twig', [
@@ -57,7 +57,7 @@ class AdminProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($Product);
             $entityManager->flush();
-            return $this->redirectToRoute('main');
+            return $this->redirectToRoute('productInfo',['id' => $Product->getId()]);
         }
 
         return $this->render('add_product/index.html.twig', [

@@ -74,10 +74,15 @@ class ProductInfoController extends AbstractController
             //Пересчет рейтинга и кол-ва отзывов
             $productRepository = $this->getDoctrine()->getRepository(Product::class);
             $product = $productRepository->find($id);
+            if($product->getRateCount() != 1){
             $newRate = ($product->getRate() * $product->getRateCount() - $comment->getRate()) / ($product->getRateCount() - 1);
             $product->setRateCount($product->getRateCount() - 1);
             $product->setRate($newRate);
-
+            }
+            else {
+                $product->setRateCount(0);
+                $product->setRate(0);
+            }
             $entityManager->persist($product);
             $entityManager->flush();
 
