@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!
+{% endblock %}
+
+{% block body %}
+	<div class="products">
+		<div>
+			<span>
+				<strong>
+					Название товара:
+				</strong>
+			</span>
+			<span>
+				{{product.name}}
+			</span>
+		</div>
+		<div>
+			<span>
+				<strong>
+					Описание товара:
+				</strong>
+			</span>
+			<span>
+				{{product.description}}
+			</span>
+		</div>
+		<div>
+			<span>
+				<strong>
+					Дата добавления:
+				</strong>
+			</span>
+			<span>
+				{{product.date|date('Y-m-d')}}
+			</span>
+		</div>
+		<div>
+			<span>
+				<strong>
+					Оценка товара:
+				</strong>
+			</span>
+			<span>{{product.rate|round(1,'floor')}}
+			</span>
+		</div>
+		<div>
+			<span>
+				<strong>
+					Количество отзывов:
+				</strong>
+			</span>
+			<span>{{product.rateCount}}
+			</span>
+		</div>
+		<hr>
+		{% if app.user %}
+		<h3>Оставить отзыв</h3>
+			{{form_start(addFeedbackForm)}}
+
+			{% set errors = addFeedbackForm.vars.errors.form.getErrors(true) %}
+			{% if errors|length %}
+				<div class="alert alert-danger">
+					{% for error in errors %}
+						<li>{{error.message}}</li>
+					{% endfor %}
+				</div>
+			{% endif %}
+
+
+			<div class="inFormsBlock">
+				{{form_label(addFeedbackForm.text)}}
+				{{form_widget(addFeedbackForm.text)}}
+			</div>
+			<div class="inFormsBlock">
+				{{form_label(addFeedbackForm.rate)}}
+			<div style="width : 15vw">
+				{{form_widget(addFeedbackForm.rate)}}
+				</div>
+			</div>
+			<div class="inFormsBlock">
+				<button type="submit" class="btn btn-primary" style="width : 20vw">Добавить</button>
+			</div>
+			{{form_end(addFeedbackForm)}}
+		{% endif %}
+		<hr>
+		<h3>Отзывы</h3>
+		{% for feed in feedbacks %}
+			<hr>
+			<div class="comment">
+				<div>
+					<span>
+						<strong>Никнейм:</strong>
+					</span>
+					<span>
+						{{feed['username']}}
+					</span>
+				</div>
+				<div>
+					<span>
+						<strong>Сообщение:</strong>
+					</span>
+					<span>
+						{{feed['text']}}
+					</span>
+				</div>
+				<div>
+					<span>
+						<strong>Дата:</strong>
+					</span>
+					<span>
+						{{feed['date']|date('Y-m-d')}}
+					</span>
+				</div>
+				<div>
+					<span>
+						<strong>Оценка:</strong>
+					</span>
+					<span>
+						{{feed['rate']}}
+					</span>
+				</div>
+				{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{path('comment_delete',{id: product.id,idComment:feed['id']})}}" class="btn btn-danger">Удалить</a>
+				{% endif %}
+				
+			</div>
+			<hr>
+		{% endfor %}
+	</div>
+{% endblock %}

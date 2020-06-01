@@ -1,0 +1,25 @@
+<div class="header">
+	<a href="{{path('main')}}" class="otzTitle">Отзовик</a>
+	<div class="auth">
+		<a href="{{path('about')}}" class="btn btn-primary">О нас</a>
+		{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{path('add_product')}}" class="btn btn-danger">Добавить продукт</a>
+		{% endif %}
+		{% if app.user %}
+			<a href="{{path('app_logout')}}" class="btn btn-primary">Выход</a>
+		{% else %}
+			<a href="{{path('app_login')}}" class="btn btn-primary">Логин</a>
+			<a href="{{path('app_register')}}" class="btn btn-primary">Регистрация</a>
+		{% endif %}
+	</div>
+	
+	<span class="sayHello">Привет,
+		{% if app.user %}
+			{{app.user.username}}
+			
+		{% else %}
+			Незнакомец
+		{% endif %}
+
+	</span>
+</div>

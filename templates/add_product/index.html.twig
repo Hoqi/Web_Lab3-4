@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddProductController!
+{% endblock %}
+
+{% block body %}
+	<div class="forms">
+		{{form_start(addProductForm)}}
+		{% set errors = addProductForm.vars.errors.form.getErrors(true) %}
+		{% if errors|length %}
+			<div class="alert alert-danger">
+				{% for error in errors %}
+					<li>{{error.message}}</li>
+				{% endfor %}
+			</div>
+		{% endif %}
+		<div class="inFormsBlock">
+			{{form_label(addProductForm.name)}}
+			{{form_widget(addProductForm.name)}}
+		</div>
+		<div class="inFormsBlock">
+			{{form_label(addProductForm.description)}}
+			{{form_widget(addProductForm.description)}}
+		</div>
+		<div class="inFormsBlock">
+			<button type="submit" class="btn btn-primary">Добавить</button>
+		</div>
+		{{form_end(addProductForm)}}
+	</div>
+{% endblock %}
